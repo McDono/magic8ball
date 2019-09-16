@@ -7,6 +7,7 @@ import { ToastController } from '@ionic/angular';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
+	public cssClass: string;
 	private answers = ['It is certain.', 'It is decidedly so.', 'Without a doubt.',
              'Yes - definitely.', 'You may rely on it.', 'As I see it, yes.',
              'Most likely.', 'Outlook good.', 'Yes.',
@@ -17,8 +18,14 @@ export class HomePage {
 	constructor(private toastCtrl: ToastController) {}
 
 	giveAnswer() {
+		this.cssClass = "animated shake";
 		let answer = this.answers[Math.floor(Math.random()*this.answers.length)];
-		this.presentToast(answer);
+		//this.presentToast(answer);
+
+		var temp = this;
+		setTimeout(function() {
+			temp.presentToast(answer);
+		}, 2000)
 	}
 
 	async presentToast(answer) {
@@ -28,6 +35,13 @@ export class HomePage {
 			position: 'top'
 		});
 		toast.present();
+
+	toast.onDidDismiss().then(() => {
+		console.log('toast dismissed');
+		this.cssClass = "";
+	});
+
+	toast.present();
 	}
 
 }
